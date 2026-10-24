@@ -24,5 +24,5 @@
 <link rel="author" href="{{ "about/" | absURL }}">
 {{ partial "seo.html" (dict "page" . "desc" $desc) }}
 {{- with site.Params.cfBeaconToken }}
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{ dict "token" . | jsonify }}'></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{ dict "token" . | jsonify }}'></script>
 {{- end }}

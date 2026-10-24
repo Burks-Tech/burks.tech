@@ -14,7 +14,7 @@ disableKinds = []
   sourceRepo = "https://github.com/Burks-Tech/burks.tech"
   # Cloudflare Web Analytics site token. It is public (it ships in every page);
   # empty means no beacon and no third-party script at all.
-  cfBeaconToken = ""
+  cfBeaconToken = "84418450905a44d8a09837fdea5634c7"
 
 [menus]
   [[menus.main]]
