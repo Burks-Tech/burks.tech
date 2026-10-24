@@ -1,0 +1,13 @@
+{{- /* Greedy word wrap: returns a slice of lines no longer than .max characters. */ -}}
+{{- $lines := slice }}
+{{- $line := "" }}
+{{- range split .text " " }}
+  {{- $try := cond (eq $line "") . (printf "%s %s" $line .) }}
+  {{- if and (gt (len $try) $.max) (ne $line "") }}
+    {{- $lines = $lines | append $line }}
+    {{- $line = . }}
+  {{- else }}
+    {{- $line = $try }}
+  {{- end }}
+{{- end }}
+{{- return ($lines | append $line) }}

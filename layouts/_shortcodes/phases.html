@@ -1,0 +1,13 @@
+{{- /* Timeline of phases from the page's front matter: phases: [{label, title, detail, impact}]. */ -}}
+<ol class="phases">
+  {{- range .Page.Params.phases }}
+  <li>
+    <span class="phase-label">{{ .label }}</span>
+    <span class="phase-title">{{ .title }}</span>
+    <span class="phase-detail">{{ .detail | markdownify }}</span>
+    {{- with .impact }}
+    <span class="phase-impact">client impact: {{ . }}</span>
+    {{- end }}
+  </li>
+  {{- end }}
+</ol>

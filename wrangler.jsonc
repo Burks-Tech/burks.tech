@@ -1,0 +1,12 @@
+// Cloudflare Workers static assets: the built site in ./public, no Worker script.
+{
+  "name": "burks-tech",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./public",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "preview_urls": true
+}

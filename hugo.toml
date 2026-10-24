@@ -1,0 +1,77 @@
+baseURL = "https://blog.burks.tech/"
+locale = "en-US"
+title = "burks.tech"
+timeZone = "America/Chicago"
+enableRobotsTXT = true
+capitalizeListTitles = false
+disableKinds = []
+
+[params]
+  author = "David Burks"
+  tagline = "Notes from a homelab that runs like production."
+  description = "Ceph, Kubernetes and Talos, run at home like production and written up with the runbooks behind them."
+  github = "https://github.com/Burks-Tech"
+  sourceRepo = "https://github.com/Burks-Tech/burks.tech"
+  # Cloudflare Web Analytics site token. It is public (it ships in every page);
+  # empty means no beacon and no third-party script at all.
+  cfBeaconToken = ""
+
+[menus]
+  [[menus.main]]
+    name = "Posts"
+    pageRef = "/posts"
+    weight = 10
+  [[menus.main]]
+    name = "Projects"
+    pageRef = "/projects"
+    weight = 20
+  [[menus.main]]
+    name = "About"
+    pageRef = "/about"
+    weight = 30
+
+[taxonomies]
+  tag = "tags"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+    guessSyntax = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 2
+    ordered = false
+  [markup.goldmark.renderer]
+    unsafe = false
+
+[mediaTypes]
+  [mediaTypes."text/x-cloudflare-headers"]
+    suffixes = [""]
+    delimiter = ""
+
+[outputFormats]
+  [outputFormats.rss]
+    baseName = "feed"
+  [outputFormats.headers]
+    mediaType = "text/x-cloudflare-headers"
+    baseName = "_headers"
+    isPlainText = true
+    notAlternative = true
+
+[outputs]
+  home = ["html", "rss", "headers"]
+  section = ["html"]
+  taxonomy = ["html"]
+  term = ["html"]
+
+[services]
+  [services.rss]
+    limit = 20
+
+[sitemap]
+  changeFreq = "monthly"
+
+[module]
+  [module.hugoVersion]
+    min = "0.168.0"

@@ -1,0 +1,56 @@
+{{ define "main" }}
+<div class="wrap">
+  <section class="hero">
+    <h1 class="display">{{ .Params.headline | default site.Params.tagline }}</h1>
+    {{- with .Params.lede }}
+    <p class="lede">{{ . }}</p>
+    {{- end }}
+  </section>
+
+  {{- $posts := where site.RegularPages "Section" "posts" }}
+  <section class="panel" aria-labelledby="latest">
+    <div>
+      <h2 id="latest">Latest writing</h2>
+      <a class="more" href="/posts/">All posts <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <ul class="post-rows">
+      {{- range first 4 $posts }}
+      <li>
+        <a href="{{ .RelPermalink }}">
+          <span>
+            <time class="d" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min</time>
+            <span class="t">{{ .Title }}</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+      {{- end }}
+      {{- if lt (len $posts) 3 }}
+      <li class="soon">
+        <a href="/feed.xml">
+          <span class="t">More soon. Follow along by RSS.</span>
+          {{ partial "icon.html" "rss" }}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+
+  <section class="cards" aria-label="Projects and the lab">
+    {{- range where hugo.Data.projects "featured" true }}
+    <a class="card" href="{{ .repo }}">
+      <span class="eyebrow">project · {{ .meta }}</span>
+      <h2>{{ .name }}</h2>
+      <p>{{ .summary }}</p>
+      <span class="go">View on GitHub <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+    {{- end }}
+    <a class="card" href="/about/#the-lab">
+      <span class="eyebrow">about · the lab</span>
+      <h2>The lab</h2>
+      <p>The hardware, the network and what runs on it.</p>
+      <span class="go">Take the tour <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+  </section>
+</div>
+{{ end }}

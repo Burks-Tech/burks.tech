@@ -1,0 +1,17 @@
+{{- range .GroupByDate "2006" }}
+<h2 class="year">{{ .Key }}</h2>
+<ul class="rows">
+  {{- range .Pages }}
+  <li>
+    <a href="{{ .RelPermalink }}">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+      <span>
+        <span class="t">{{ .Title }}</span>
+        <span class="s">{{ .Description | default .Summary | plainify }}</span>
+      </span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- end }}

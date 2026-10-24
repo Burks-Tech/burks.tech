@@ -1,0 +1,19 @@
+{{- $updated := gt (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02") }}
+<dl class="titleblock">
+  <div>
+    <dt>{{ if $updated }}updated{{ else }}date{{ end }}</dt>
+    <dd><time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006-01-02" }}</time></dd>
+  </div>
+  <div>
+    <dt>rev</dt>
+    <dd>{{ with .Params.source }}{{ .rev }}{{ else }}1{{ end }}</dd>
+  </div>
+  <div>
+    <dt>read</dt>
+    <dd>{{ .ReadingTime }} min</dd>
+  </div>
+  <div>
+    <dt>source</dt>
+    <dd>{{ with .Params.source }}<a href="{{ .url }}">github <span class="arrow" aria-hidden="true">→</span></a>{{ else }}this page{{ end }}</dd>
+  </div>
+</dl>

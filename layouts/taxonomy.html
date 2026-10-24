@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="list-head">
+    <h1 class="display">{{ .Title }}</h1>
+  </header>
+  <ul class="rows">
+    {{- range .Pages.ByTitle }}
+    <li>
+      <a href="{{ .RelPermalink }}">
+        <time>{{ len .Pages }} {{ cond (eq (len .Pages) 1) "post" "posts" }}</time>
+        <span><span class="t">{{ .LinkTitle }}</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+</div>
+{{ end }}

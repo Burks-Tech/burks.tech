@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="list-head">
+    <a class="back" href="/tags/">← All tags</a>
+    <h1 class="display">{{ .Title }}</h1>
+  </header>
+  {{ partial "post-list.html" .Pages }}
+</div>
+{{ end }}

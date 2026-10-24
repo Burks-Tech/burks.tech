@@ -1,0 +1,16 @@
+{{- $u := urls.Parse .Destination -}}
+{{- $href := .Destination -}}
+{{- $external := and $u.Host (not (in (slice "blog.burks.tech" "burks.tech") $u.Host)) -}}
+{{- if and (not $u.Host) (not $u.Scheme) $u.Path -}}
+  {{- /* Site-internal link: it must resolve to a page, or the build fails. */ -}}
+  {{- with or (.PageInner.GetPage $u.Path) (site.GetPage $u.Path) -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+  {{- else -}}
+    {{- if not (or (hasPrefix $u.Path "/feed.xml") (hasPrefix $u.Path "/fonts/")) -}}
+      {{- errorf "%s: link %q does not resolve to a page" .PageInner.File.Path .Destination -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $external }} class="ext"{{ end }}>{{ .Text }}</a>
+{{- /* chomp trailing newline */ -}}

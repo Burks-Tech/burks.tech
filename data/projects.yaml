@@ -1,0 +1,7 @@
+- name: cephadm-to-rook-in-place
+  featured: true
+  meta: "v1.0.1 · CC BY 4.0 and MIT"
+  summary: "The full write-up of an in-place cephadm to Rook migration: guide, pitfalls, gate scripts and examples."
+  status: "Migration done; follow-ups tracked in the changelog."
+  repo: "https://github.com/Burks-Tech/cephadm-to-rook-in-place"
+  post: "/posts/cephadm-to-rook-in-place/"

@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := printf "%s · %s" .Title site.Title }}
+{{- if .IsHome }}{{ $title = printf "%s · %s" site.Title site.Params.tagline }}{{ end }}
+<title>{{ $title }}</title>
+{{- $desc := site.Params.description }}
+{{- with .Description }}{{ $desc = . }}{{ else }}{{ if .IsPage }}{{ with .Summary }}{{ $desc = . | plainify | strings.TrimSpace }}{{ end }}{{ end }}{{ end }}
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f2ea">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141518">
+{{- with resources.Get "js/theme-init.js" | minify }}
+<script>{{ .Content | safeJS }}</script>
+{{- end }}
+<link rel="preload" href="/fonts/newsreader-v26-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+{{- $css := slice (resources.Get "css/main.css") (resources.Get "css/syntax.css") | resources.Concat "css/site.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- $js := resources.Get "js/main.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ "feed.xml" | absURL }}">
+<link rel="author" href="{{ "about/" | absURL }}">
+{{ partial "seo.html" (dict "page" . "desc" $desc) }}
+{{- with site.Params.cfBeaconToken }}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{ dict "token" . | jsonify }}'></script>
+{{- end }}

@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="list-head">
+    <h1 class="display">{{ .Title }}</h1>
+    {{- with .Content }}
+    <div class="lede">{{ . }}</div>
+    {{- end }}
+  </header>
+  {{ partial "post-list.html" .Pages }}
+</div>
+{{ end }}

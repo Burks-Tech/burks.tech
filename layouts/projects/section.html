@@ -1,0 +1,28 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="list-head">
+    <h1 class="display">{{ .Title }}</h1>
+    {{- with .Content }}
+    <div class="lede">{{ . }}</div>
+    {{- end }}
+  </header>
+  <div class="cards">
+    {{- range hugo.Data.projects }}
+    <article class="card">
+      <span class="eyebrow">{{ .meta }}</span>
+      <h2>{{ .name }}</h2>
+      <p>{{ .summary }}</p>
+      {{- with .status }}
+      <p class="eyebrow">{{ . }}</p>
+      {{- end }}
+      <p class="links">
+        <a href="{{ .repo }}">Repository <span class="arrow" aria-hidden="true">→</span></a>
+        {{- with .post }}
+        <a href="{{ . }}">The write-up <span class="arrow" aria-hidden="true">→</span></a>
+        {{- end }}
+      </p>
+    </article>
+    {{- end }}
+  </div>
+</div>
+{{ end }}

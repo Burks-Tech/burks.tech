@@ -1,0 +1,49 @@
+{{ define "main" }}
+<article class="wrap">
+  <header class="post-head">
+    <a class="back" href="/posts/">← All posts</a>
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- with .Params.subtitle }}
+    <p class="subtitle">{{ . }}</p>
+    {{- end }}
+    {{ partial "title-block.html" . }}
+    {{- with .Params.stats }}
+    <dl class="stats">
+      {{- range . }}
+      <div><dt>{{ .label }}</dt><dd>{{ .value }}</dd></div>
+      {{- end }}
+    </dl>
+    {{- end }}
+  </header>
+
+  {{- if and .Params.toc (gt (len .Fragments.Headings) 0) }}
+  <aside class="toc" aria-labelledby="toc-title">
+    <p class="toc-title" id="toc-title">Contents</p>
+    {{ .TableOfContents }}
+  </aside>
+  {{- end }}
+
+  <div class="prose">
+    {{ .Content }}
+  </div>
+
+  <footer class="post-foot">
+    {{- with .Params.source }}
+    <a class="card" href="{{ .url }}">
+      <span class="eyebrow">source · {{ .rev }}</span>
+      <h2>{{ .title | default "Read the full write-up" }}</h2>
+      <p>{{ .summary }}</p>
+      <span class="go">Read it on GitHub <span class="arrow" aria-hidden="true">→</span></span>
+    </a>
+    <p class="feedback">Questions or corrections? <a href="{{ .url }}/issues">Open an issue on the repository</a>.</p>
+    {{- end }}
+    {{- with .GetTerms "tags" }}
+    <ul class="tags" aria-label="Tags">
+      {{- range . }}
+      <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+  </footer>
+</article>
+{{ end }}

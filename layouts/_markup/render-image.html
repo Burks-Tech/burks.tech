@@ -1,0 +1,10 @@
+{{- $img := .PageInner.Resources.Get .Destination -}}
+{{- if and $img (in (slice "image/png" "image/jpeg") $img.MediaType.Type) -}}
+  {{- $small := $img -}}
+  {{- $large := $img -}}
+  {{- if gt $img.Width 720 }}{{ $small = $img.Resize "720x" }}{{ end -}}
+  {{- if gt $img.Width 1440 }}{{ $large = $img.Resize "1440x" }}{{ end -}}
+  <img src="{{ $small.RelPermalink }}" srcset="{{ $small.RelPermalink }} {{ $small.Width }}w, {{ $large.RelPermalink }} {{ $large.Width }}w" sizes="(min-width: 48rem) 40rem, 100vw" width="{{ $small.Width }}" height="{{ $small.Height }}" alt="{{ .PlainText }}" loading="lazy" decoding="async">
+{{- else -}}
+  <img src="{{ with $img }}{{ .RelPermalink }}{{ else }}{{ .Destination }}{{ end }}" alt="{{ .PlainText }}" loading="lazy" decoding="async">
+{{- end -}}

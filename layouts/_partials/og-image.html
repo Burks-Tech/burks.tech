@@ -1,0 +1,37 @@
+{{- /* Open Graph card for a page: 1200x630 PNG, built at build time from og/base.png. */ -}}
+{{- $p := . }}
+{{- $serif := resources.Get "og/newsreader-500.ttf" }}
+{{- $italic := resources.Get "og/newsreader-400-italic.ttf" }}
+{{- $mono := resources.Get "og/jetbrains-mono-400.ttf" }}
+{{- $title := cond $p.IsHome site.Params.tagline $p.Title | plainify }}
+{{- $subtitle := "" }}
+{{- if not $p.IsHome }}{{ $subtitle = $p.Params.subtitle | default "" | plainify }}{{ end }}
+
+{{- /* images.Text does not wrap, so break text into lines by an average glyph width. */ -}}
+{{- $size := 92 }}
+{{- if gt (len $title) 22 }}{{ $size = 84 }}{{ end }}
+{{- if gt (len $title) 30 }}{{ $size = 72 }}{{ end }}
+{{- if gt (len $title) 60 }}{{ $size = 60 }}{{ end }}
+{{- $lines := partial "og-wrap.html" (dict "text" $title "max" (int (div 1040.0 (mul $size 0.47)))) }}
+{{- $lineHeight := int (mul $size 1.12) }}
+
+{{- $filters := slice
+  (images.Text (delimit $lines "\n") (dict "font" $serif "size" $size "color" "#2a2723" "linespacing" (sub $lineHeight $size) "x" 80 "y" 150))
+}}
+{{- with $subtitle }}
+  {{- $subLines := partial "og-wrap.html" (dict "text" . "max" (int (div 1040.0 (mul 40 0.45)))) }}
+  {{- $y := add 150 (mul (len $lines) $lineHeight) 22 }}
+  {{- if le (add $y (mul (len $subLines) 50)) 500 }}
+    {{- $filters = $filters | append (images.Text (delimit $subLines "\n") (dict "font" $italic "size" 40 "color" "#6e675c" "linespacing" 10 "x" 80 "y" $y)) }}
+  {{- end }}
+{{- end }}
+
+{{- $meta := site.Params.author }}
+{{- if and $p.IsPage (eq $p.Section "posts") }}
+  {{- $meta = printf "%s  ·  %s  ·  %d min read" site.Params.author ($p.Date.Format "2 January 2006") $p.ReadingTime }}
+{{- else if not $p.IsHome }}
+  {{- $meta = printf "%s  ·  %s" site.Params.author (strings.TrimPrefix "https://" $p.Permalink | strings.TrimSuffix "/") }}
+{{- end }}
+{{- $filters = $filters | append (images.Text $meta (dict "font" $mono "size" 24 "color" "#6e675c" "x" 80 "y" 548)) }}
+
+{{- return (resources.Get "og/base.png" | images.Filter $filters) }}

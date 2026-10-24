@@ -1,0 +1,6 @@
+{{- $lang := .Type | default "text" -}}
+{{- $result := transform.HighlightCodeBlock . -}}
+<div class="code">
+  <div class="code-bar"><span>{{ $lang }}</span><button class="copy" type="button" hidden>Copy</button></div>
+  {{ $result.Wrapped }}
+</div>
